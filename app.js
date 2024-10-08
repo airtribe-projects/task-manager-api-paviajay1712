@@ -6,9 +6,11 @@ const tasks = require("./task.json");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const port = process.env.PORT || 3000;
+
 // Input validation middleware
 const validateTaskInput = (req, res, next) => {
-  const { title, description, completed } = req.body;
+  const { title, description, completed, priority } = req.body;
   if (!title || title.trim() === "") {
     return res.status(400).json({ message: "Title is required" });
   }
@@ -122,11 +124,11 @@ app.use((req, res, next) => {
   res.status(404).json({ message: "Route not found" });
 });
 
-app.listen(process.env.PORT, (err) => {
+app.listen(port, (err) => {
   if (err) {
     return console.log("Something bad happened", err);
   }
-  console.log(`Server is listening on ${process.env.PORT}`);
+  console.log(`Server is listening on ${port}`);
 });
 
 module.exports = app;
